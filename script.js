@@ -1,11 +1,37 @@
 var badRoad = []
+var borderPoints = []
+var endMapPoints = []
+
+// utworzenie tablicy z granicami trasy
+const allBorders = document.querySelectorAll('[data-border]')
+allBorders.forEach(singleBorderPoint => {
+    let onePoint = {}
+    const singlePoint = singleBorderPoint.getBoundingClientRect()
+
+    onePoint.top = singlePoint.top
+    onePoint.left = singlePoint.left
+
+    borderPoints.push(onePoint)
+})
+
+//utworzenie tablicy z metą trasy
+const endRoad = document.querySelectorAll('[data-end]')
+endRoad.forEach(singleEndBlock => {
+    let endPoint = {}
+    const singlePointEnd = singleEndBlock.getBoundingClientRect()
+
+    endPoint.top = singlePointEnd.top
+    endPoint.left = singlePointEnd.left
+
+    endMapPoints.push(endPoint)
+})
+
 
 const carThree = () => {
 
     const $car = document.querySelector('[data-car-second3]')
     const carSensor = document.querySelector('[data-car-sensor-second3]')
     const carSensorRight = document.querySelector('[data-car-sensor-right-second3]')
-    const carView = document.querySelector('[data-car-view-second3]')
     const counterBoard = document.querySelector('[data-black]')
 
     $car.style.left = '75px'
@@ -14,19 +40,6 @@ const carThree = () => {
     const roadRightValue = 7
     let roadDown1 = 0
     let roadRight1 = 75
-    let borderPoints = []
-
-    //tworzy tablice z obiektami z lokalizacją granic trasy
-    const allBorders = document.querySelectorAll('[data-border]')
-    allBorders.forEach(singleBorderPoint => {
-        let onePoint = {}
-        const singlePoint = singleBorderPoint.getBoundingClientRect()
-
-        onePoint.top = singlePoint.top
-        onePoint.left = singlePoint.left
-
-        borderPoints.push(onePoint)
-    })
 
     //ruch samochodu w dół
     const carRideDown = () => {
@@ -88,6 +101,16 @@ const carThree = () => {
 
         return carLocalisation
     }
+    console.log(endMapPoints)
+
+    //zwraca true jezeli auto trafi na linię mety
+    const endMap = (carLocalisation) =>{
+        for(let i = 0; i < endMapPoints.length; i++){
+            if(carLocalisation.top === endMapPoints[i].top && carLocalisation.left === endMapPoints[i].left){
+                return true
+            }
+        }
+    }
 
     //jezeli pojazd ma kolizję z granicą zwraca true
     const carCollisionWithBorders = (actualCarLoc) => {
@@ -117,7 +140,6 @@ const carThree = () => {
         }
     }
 
-    let a = 0
     let flag = true
     let counter = 0
     const ride = () => {
@@ -157,9 +179,8 @@ const carThree = () => {
 
         carRideDown()
 
-        a += 1
 
-        if (a === 4000) {
+        if (endMap(actualCarLocalisation())) {
             clearInterval(interval)
         }
         counterBoard.textContent = counter.toString()
@@ -176,7 +197,6 @@ const carTwo = () => {
     const $car = document.querySelector('[data-car-second]')
     const carSensor = document.querySelector('[data-car-sensor-second]')
     const carSensorRight = document.querySelector('[data-car-sensor-right-second]')
-    const carView = document.querySelector('[data-car-view-second]')
     const counterBoard = document.querySelector('[data-green]')
 
     $car.style.left = '75px'
@@ -185,19 +205,6 @@ const carTwo = () => {
     const roadRightValue = 7
     let roadDown1 = 0
     let roadRight1 = 75
-    let borderPoints = []
-
-    //tworzy tablice z obiektami z lokalizacją granic trasy
-    const allBorders = document.querySelectorAll('[data-border]')
-    allBorders.forEach(singleBorderPoint => {
-        let onePoint = {}
-        const singlePoint = singleBorderPoint.getBoundingClientRect()
-
-        onePoint.top = singlePoint.top
-        onePoint.left = singlePoint.left
-
-        borderPoints.push(onePoint)
-    })
 
     //ruch samochodu w dół
     const carRideDown = () => {
@@ -257,6 +264,15 @@ const carTwo = () => {
         return carLocalisation
     }
 
+      //zwraca true jezeli auto trafi na linię mety
+      const endMap = (carLocalisation) =>{
+        for(let i = 0; i < endMapPoints.length; i++){
+            if(carLocalisation.top === endMapPoints[i].top && carLocalisation.left === endMapPoints[i].left){
+                return true
+            }
+        }
+    }
+
     //jezeli pojazd ma kolizję z granicą zwraca true
     const carCollisionWithBorders = (actualCarLoc) => {
         //ten pierwszy if mozna wywalic
@@ -285,7 +301,6 @@ const carTwo = () => {
         }
     }
 
-    let a = 0
     let flag = true
     let counter = 0
     const ride = () => {
@@ -319,15 +334,13 @@ const carTwo = () => {
                 ////jezeli kolizja to dodaj lokalizacje do tablicy zakazanych i cofnij na początek
                 badRoad.push(actualCarLocalisation())
                 restartCarPosition()
-                counter +=1
+                counter += 1
             }
         }
 
         carRideDown()
 
-        a += 1
-
-        if (a === 4000) {
+        if (endMap(actualCarLocalisation())) {
             clearInterval(interval)
         }
         counterBoard.textContent = counter.toString()
@@ -344,7 +357,6 @@ const carOne = () => {
     const $car = document.querySelector('[data-car]')
     const carSensor = document.querySelector('[data-car-sensor]')
     const carSensorRight = document.querySelector('[data-car-sensor-right]')
-    const carView = document.querySelector('[data-car-view]')
     const counterBoard = document.querySelector('[data-red]')
 
     $car.style.left = '75px'
@@ -353,19 +365,6 @@ const carOne = () => {
     const roadRightValue = 7
     let roadDown1 = 0
     let roadRight1 = 75
-    let borderPoints = []
-
-    //tworzy tablice z obiektami z lokalizacją granic trasy
-    const allBorders = document.querySelectorAll('[data-border]')
-    allBorders.forEach(singleBorderPoint => {
-        let onePoint = {}
-        const singlePoint = singleBorderPoint.getBoundingClientRect()
-
-        onePoint.top = singlePoint.top
-        onePoint.left = singlePoint.left
-
-        borderPoints.push(onePoint)
-    })
 
     //ruch samochodu w dół
     const carRideDown = () => {
@@ -422,6 +421,15 @@ const carOne = () => {
         return carLocalisation
     }
 
+      //zwraca true jezeli auto trafi na linię mety
+      const endMap = (carLocalisation) =>{
+        for(let i = 0; i < endMapPoints.length; i++){
+            if(carLocalisation.top === endMapPoints[i].top && carLocalisation.left === endMapPoints[i].left){
+                return true
+            }
+        }
+    }
+
     //jezeli pojazd ma kolizję z granicą zwraca true
     const carCollisionWithBorders = (actualCarLoc) => {
         //ten pierwszy if mozna wywalic
@@ -447,7 +455,6 @@ const carOne = () => {
         }
     }
 
-    let a = 0
     let flag = true
     let counter = 0
     const ride = () => {
@@ -486,9 +493,7 @@ const carOne = () => {
         }
 
         carRideDown()
-        a += 1
-
-        if (a === 4000) {
+        if (endMap(actualCarLocalisation())) {
             clearInterval(interval)
         }
 
@@ -498,18 +503,6 @@ const carOne = () => {
     let interval = setInterval(ride, 20)
     console.log('car1')
 }
-
-// const colors = () =>{
-//     const span1 = document.querySelector('[data-black]').value
-//     const span2 = document.querySelector('[data-green]')
-//     const span3 = document.querySelector('[data-red]')
-
-//     console.log(span1)
-
-
-// }
-
-// setInterval(colors, 5)
 
 carTwo()
 carThree()
