@@ -186,8 +186,6 @@ const carThree = () => {
         counterBoard.textContent = counter.toString()
     }
 
-    console.log('car2')
-
     let interval = setInterval(ride, 10)
 }
 
@@ -200,7 +198,6 @@ const carTwo = () => {
     const counterBoard = document.querySelector('[data-green]')
 
     $car.style.left = '75px'
-
     const roadDownValue = 1
     const roadRightValue = 7
     let roadDown1 = 0
@@ -292,9 +289,7 @@ const carTwo = () => {
             for (let i = 0; i < badRoad.length; i++) {
                 if (actualCarLoc.top === badRoad[i].top && actualCarLoc.left === badRoad[i].left) {
                     return true
-                } else {
-                    // return false
-                }
+                } 
             }
         } else {
             return false
@@ -347,8 +342,6 @@ const carTwo = () => {
 
     }
 
-    console.log('car2')
-
     let interval = setInterval(ride, 15)
 }
 
@@ -360,7 +353,6 @@ const carOne = () => {
     const counterBoard = document.querySelector('[data-red]')
 
     $car.style.left = '75px'
-
     const roadDownValue = 1
     const roadRightValue = 7
     let roadDown1 = 0
