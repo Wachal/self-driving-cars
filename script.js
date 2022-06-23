@@ -1,6 +1,7 @@
 var badRoad = []
 var borderPoints = []
 var endMapPoints = []
+let isModelLearned;
 
 // utworzenie tablicy z granicami trasy
 const allBorders = document.querySelectorAll('[data-border]')
@@ -25,6 +26,30 @@ endRoad.forEach(singleEndBlock => {
 
     endMapPoints.push(endPoint)
 })
+
+//Wygenerowanie losowej prędkości
+const getRandomSpeed = () => {
+
+  let speedValues = [7,10,13]
+
+  let number = Math.floor(Math.random() * 3);
+
+  return speedValues[number]
+}
+
+//Wywoloywana po nauczeniu modelu, odblokowuje funkcje testowania, zmienia status modelu
+const modelLearned = () => {
+
+  //Ponizszy warunek powoduje wykonanie kodu tylko przy pierwsym aucie ktore trafilo na mete
+  if(!isModelLearned){
+    let testingButton =  document.getElementById("run-testing");
+    testingButton.removeAttribute("disabled");
+
+    let modelStatusText = document.querySelector("[data-status]");
+    modelStatusText.textContent = 'Nauczony'
+    modelStatusText.style.color = "green"
+  }
+}
 
 
 const carThree = () => {
@@ -107,6 +132,8 @@ const carThree = () => {
     const endMap = (carLocalisation) =>{
         for(let i = 0; i < endMapPoints.length; i++){
             if(carLocalisation.top === endMapPoints[i].top && carLocalisation.left === endMapPoints[i].left){
+                modelLearned();
+                isModelLearned = true;
                 return true
             }
         }
@@ -186,7 +213,7 @@ const carThree = () => {
         counterBoard.textContent = counter.toString()
     }
 
-    let interval = setInterval(ride, 10)
+    let interval = setInterval(ride, getRandomSpeed())
 }
 
 
@@ -265,6 +292,8 @@ const carTwo = () => {
       const endMap = (carLocalisation) =>{
         for(let i = 0; i < endMapPoints.length; i++){
             if(carLocalisation.top === endMapPoints[i].top && carLocalisation.left === endMapPoints[i].left){
+                modelLearned();
+                isModelLearned = true;
                 return true
             }
         }
@@ -289,7 +318,7 @@ const carTwo = () => {
             for (let i = 0; i < badRoad.length; i++) {
                 if (actualCarLoc.top === badRoad[i].top && actualCarLoc.left === badRoad[i].left) {
                     return true
-                } 
+                }
             }
         } else {
             return false
@@ -342,7 +371,9 @@ const carTwo = () => {
 
     }
 
-    let interval = setInterval(ride, 15)
+    //Randomize speed
+
+    let interval = setInterval(ride, getRandomSpeed())
 }
 
 const carOne = () => {
@@ -417,6 +448,8 @@ const carOne = () => {
       const endMap = (carLocalisation) =>{
         for(let i = 0; i < endMapPoints.length; i++){
             if(carLocalisation.top === endMapPoints[i].top && carLocalisation.left === endMapPoints[i].left){
+                modelLearned();
+                isModelLearned = true;
                 return true
             }
         }
@@ -492,10 +525,30 @@ const carOne = () => {
         counterBoard.textContent = counter.toString()
     }
 
-    let interval = setInterval(ride, 20)
+    let interval = setInterval(ride, getRandomSpeed())
     console.log('car1')
 }
 
-carTwo()
-carThree()
-carOne()
+let runLearningButton =  document.querySelector("#run-learning");
+runLearningButton.addEventListener('click', function(){
+  runLearningButton.dataset.learned = true;
+  carTwo()
+  carThree()
+  carOne()
+});
+
+let runTestingButton =  document.querySelector("#run-testing");
+runTestingButton.addEventListener('click', function(){
+  if(runLearningButton.dataset.learned)
+    carOne()
+  else {
+    alert("W pierwszej kolejności uruchom naukę.")
+  }
+});
+
+let resetButton =  document.querySelector("#reset");
+resetButton.addEventListener('click', function(){
+  let confirmStatus = confirm("Czy na pewno wykonać reset? Operacja usunie postęp uczenia.");
+  if(confirmStatus)
+    location.reload();
+});

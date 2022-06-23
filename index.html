@@ -11,12 +11,31 @@
 
 <body>
     <div class="border">
-        <p>Czarny:<span data-black></span> kolizji</p>
-        <p>Zielony:<span data-green></span> kolizji</p>
-        <p>Czerwony:<span data-red></span> kolizji</p>
+        <h1>Sztuczna inteligencja w pokonywaniu toru</h1>
+        <p>Panel sterowania</p>
+        <div class="button">
+          <button id="run-learning">Uruchom naukę</button>
+        </div>
+        <div class="button">
+          <button id="run-testing" disabled>Uruchom testowanie</button>
+        </div>
+        <div class="button">
+          <button id="reset">Reset</button>
+        </div>
+        <p>Status modelu: <span data-status>Nienauczony<span></p>
+        <p>Kolizje</p>
+        <ul>
+          <li>Czarny: <span data-black></span> kolizji </li>
+          <li>Zielony: <span data-green></span> kolizji </li>
+          <li>Czerwony: <span data-red></span> kolizji </li>
+        </ul>
+        <p>Realizacja:</p>
+        <ul>
+          <li>Tymoteusz Wąchal</li>
+          <li>Arkdiusz Kopczyński</li>
+        </ul>
     </div>
     <div class="map">
-
         <div class="car" data-car>
             <div class="a1"></div>
             <div class="a2"></div>
